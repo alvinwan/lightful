@@ -8,18 +8,11 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alvinwan/aframe-low-poly@0.0.5/dist/aframe-low-poly.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+HK:400,900&display=swap" rel="stylesheet">
-    <!-- Google Analytics -->
     <script>
-    // setup "sky" so that it's sinusoidal
-    LowPolyTerrain.registerCurvature('sine', function (vertex, min, max) {
-        var py = (vertex.y - min.y) / (max.y - min.y);
-        var z = Math.sin(py * 2 * Math.PI) + vertex.z;
-        return {x: vertex.x, y: vertex.y, z: z}
-    });
     </script>
     <style>
 html {
-  background-color:#333;
+  background-color:#111;
 }
 * {
   font-family:'Noto Sans HK'
@@ -62,7 +55,7 @@ p {
     <div class="content-front">
       <p class="byline">Multiplayer virtual reality puzzle</p>
     </div> -->
-    <a-scene fog="type: linear; color: #333; near:10; far:15">
+    <a-scene fog="type: linear; color: #111; near:10; far:15">
 
       <!-- Mixins -->
       <a-assets>
@@ -100,7 +93,7 @@ p {
 
       <a-entity rotation="0 45 0">
         <a-entity rotation="0 90 0">
-          <a-entity position="8 3 0" scale="1 1 1" class="clickable" onclick="document.querySelector('.orb1-light').click();">
+          <a-entity id="container-orb1" position="8 3 0" scale="1 1 1" class="clickable" onclick="document.querySelector('.orb1-light').click();document.querySelector('.orb4-light').click();document.querySelector('.orb2-light').click();">
             <a-entity position="-2 -1 0">
               <a-light class="orb1-light" target="#orb1" distance="8" type="point" color="#f90" intensity="1">
                 <a-animation begin="click" attribute="intensity" from="1" to="0" direction="alternate"></a-animation>
@@ -117,17 +110,19 @@ p {
               <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 -60 0" to="-360 -60 0" dur="3000"></a-animation>
             </a-ring>
             <a-entity id="orb1">
-              <lp-sphere shadow max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
-              <lp-sphere shadow max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
+              <lp-sphere seed="1" shadow max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
+              <lp-sphere seed="1" shadow max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
               <a-animation attribute="rotation" repeat="indefinite" from="0 0 0" to="0 360 0" dur="5000"></a-animation>
             </a-entity>
             <a-animation begin="click" attribute="scale" from="1 1 1" to="0.5 0.5 0.5" direction="alternate"></a-animation>
             <a-animation begin="click" attribute="position" from="8 3 0" to="8 0.5 0" direction="alternate"></a-animation>
+            <a-text opacity="0.25" rotation="0 -90 0" value=">" color="#FFF" scale="10 10 10" position="0 0 1" material="side:double" ></a-text>
+            <a-text opacity="0.25"rotation="0 -90 0" value="<" color="#FFF" scale="10 10 10" position="0 0 -3" material="side:double" ></a-text>
           </a-entity>
         </a-entity>
 
         <a-entity rotation="0 180 0">
-          <a-entity position="8 0.5 0" scale="0.5 0.5 0.5" class="clickable" onclick="document.querySelector('.orb2-light').click();">
+          <a-entity id="container-orb2" position="8 0.5 0" scale="0.5 0.5 0.5" class="clickable" onclick="document.querySelector('.orb2-light').click();">
             <a-entity position="-2 -1 0">
               <a-light class="orb2-light" target="#orb2" distance="8" type="point" color="#f90" intensity="0">
                 <a-animation begin="click" attribute="intensity" from="0" to="1" direction="alternate"></a-animation>
@@ -144,8 +139,8 @@ p {
               <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 -60 0" to="-360 -60 0" dur="3000"></a-animation>
             </a-ring>
             <a-entity id="orb2">
-              <lp-sphere max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
-              <lp-sphere max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
+              <lp-sphere seed="2" max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
+              <lp-sphere seed="2" max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
               <a-animation attribute="rotation" repeat="indefinite" from="0 0 0" to="0 360 0" dur="5000"></a-animation>
             </a-entity>
             <a-animation begin="click" attribute="scale" from="0.5 0.5 0.5" to="1 1 1" direction="alternate"></a-animation>
@@ -154,7 +149,7 @@ p {
         </a-entity>
 
         <a-entity rotation="0 270 0">
-          <a-entity position="8 0.5 0" scale="0.5 0.5 0.5" class="clickable" onclick="document.querySelector('.orb3-light').click();">
+          <a-entity id="container-orb3" position="8 0.5 0" scale="0.5 0.5 0.5" class="clickable" onclick="document.querySelector('.orb3-light').click();">
             <a-entity position="-2 -1 0">
               <a-light class="orb3-light" target="#orb3" distance="8" type="point" color="#f90" intensity="0">
                 <a-animation begin="click" attribute="intensity" from="0" to="1" direction="alternate"></a-animation>
@@ -171,8 +166,8 @@ p {
               <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 -60 0" to="-360 -60 0" dur="3000"></a-animation>
             </a-ring>
             <a-entity id="orb3">
-              <lp-sphere max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
-              <lp-sphere max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
+              <lp-sphere seed="3" max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
+              <lp-sphere seed="3" max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
               <a-animation attribute="rotation" repeat="indefinite" from="0 0 0" to="0 360 0" dur="5000"></a-animation>
             </a-entity>
             <a-animation begin="click" attribute="scale" from="0.5 0.5 0.5" to="1 1 1" direction="alternate"></a-animation>
@@ -181,7 +176,7 @@ p {
         </a-entity>
 
         <a-entity rotation="0 0 0">
-          <a-entity position="8 0.5 0" scale="0.5 0.5 0.5" class="clickable" onclick="document.querySelector('.orb4-light').click();">
+          <a-entity id="container-orb4" position="8 0.5 0" scale="0.5 0.5 0.5" class="clickable" onclick="document.querySelector('.orb4-light').click();">
             <a-entity position="-2 -1 0">
               <a-light class="orb4-light" target="#orb4" distance="8" type="point" color="#f90" intensity="0">
                 <a-animation begin="click" attribute="intensity" from="0" to="1" direction="alternate"></a-animation>
@@ -198,8 +193,8 @@ p {
               <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 -60 0" to="-360 -60 0" dur="3000"></a-animation>
             </a-ring>
             <a-entity id="orb4">
-              <lp-sphere max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
-              <lp-sphere max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
+              <lp-sphere seed="4" max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
+              <lp-sphere seed="4" max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
               <a-animation attribute="rotation" repeat="indefinite" from="0 0 0" to="0 360 0" dur="5000"></a-animation>
             </a-entity>
             <a-animation begin="click" attribute="scale" from="0.5 0.5 0.5" to="1 1 1" direction="alternate"></a-animation>
