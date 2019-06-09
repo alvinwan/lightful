@@ -81,104 +81,129 @@ p {
 
       <!-- Camera! -->
       <a-entity id="rig" position="0 3 0">
-        <a-camera wasd-controls look-controls></a-camera>
+        <a-camera wasd-controls look-controls>
+          <a-entity cursor="fuse: true; fuseTimeout: 250"
+                  position="0 0 -1"
+                  geometry="primitive: ring; radiusInner: 0.03; radiusOuter: 0.04"
+                  material="color: white; shader: flat; opacity: 0.5"
+                  scale="0.5 0.5 0.5"
+                  raycaster="far: 20; interval: 1000; objects: .clickable">
+              <a-circle radius="0.01" color="#FFF" opacity="0.5" material="shader: flat"></a-circle>
+            <a-animation begin="fusing" easing="ease-in" attribute="scale"
+               fill="backwards" from="1 1 1" to="0.2 0.2 0.2" dur="250"></a-animation>
+           </a-entity>
+        </a-camera>
       </a-entity>
 
       <!-- Action! -->
       <a-box shadow width="75" height="0.1" depth="75" position="0 -1 0" color="#222"></a-box>
 
-      <a-entity rotation="0 90 0">
-        <a-entity id="orb" position="8 3 0">
-          <a-entity position="-2 -1 0">
-            <a-light target="#orb1" distance="8" type="point" color="#f90" intensity="1"></a-light>
-            <a-light target="#orb1" distance="8" type="point" color="#FFF" intensity="0.8"></a-light>
-          </a-entity>
-          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.9" radius-outer="2" opacity="0.25">
-            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 0 0" to="0 360 0" dur="8000"></a-animation>
-          </a-ring>
-          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="2.4" radius-outer="2.5" opacity="0.25">
-            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 45 0" to="360 45 0" dur="8000"></a-animation>
-          </a-ring>
-          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.4" radius-outer="1.5" opacity="0.25">
-            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 -60 0" to="-360 -60 0" dur="3000"></a-animation>
-          </a-ring>
-          <a-entity id="orb1">
-            <lp-sphere shadow max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
-            <lp-sphere shadow max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
-            <a-animation attribute="rotation" repeat="indefinite" from="0 0 0" to="0 360 0" dur="5000"></a-animation>
-          </a-entity>
-        </a-entity>
-      </a-entity>
-
-      <a-entity rotation="0 180 0">
-        <a-entity position="8 0.5 0" scale="0.5 0.5 0.5">
-          <a-entity position="-2 -1 0">
-            <a-light target="#orb1" distance="8" type="point" color="#f90" intensity="1">
-              <a-animation attribute="intensity" from="1" to="0" repeat="indefinite" direction="alternate"></a-animation>
-            </a-light>
-            <a-light target="#orb1" distance="8" type="point" color="#FFF" intensity="0.8"></a-light>
-          </a-entity>
-          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.9" radius-outer="2" opacity="0.25">
-            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 0 0" to="0 360 0" dur="8000"></a-animation>
-          </a-ring>
-          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="2.4" radius-outer="2.5" opacity="0.25">
-            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 45 0" to="360 45 0" dur="8000"></a-animation>
-          </a-ring>
-          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.4" radius-outer="1.5" opacity="0.25">
-            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 -60 0" to="-360 -60 0" dur="3000"></a-animation>
-          </a-ring>
-          <a-entity id="orb2">
-            <lp-sphere max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
-            <lp-sphere max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
-            <a-animation attribute="rotation" repeat="indefinite" from="0 0 0" to="0 360 0" dur="5000"></a-animation>
-          </a-entity>
-          <a-animation attribute="scale" from="1 1 1" to="0.5 0.5 0.5" repeat="indefinite" direction="alternate"></a-animation>
-          <a-animation attribute="position" from="8 3 0" to="8 0 0" repeat="indefinite" direction="alternate"></a-animation>
-        </a-entity>
-      </a-entity>
-
-      <a-entity rotation="0 270 0">
-        <a-entity position="8 0.5 0" scale="0.5 0.5 0.5">
-          <a-entity position="-2 -1 0">
-            <a-light target="#orb1" distance="8" type="point" color="#f90" intensity="0"></a-light>
-            <a-light target="#orb1" distance="8" type="point" color="#FFF" intensity="0.8"></a-light>
-          </a-entity>
-          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.9" radius-outer="2" opacity="0.25">
-            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 0 0" to="0 360 0" dur="8000"></a-animation>
-          </a-ring>
-          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="2.4" radius-outer="2.5" opacity="0.25">
-            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 45 0" to="360 45 0" dur="8000"></a-animation>
-          </a-ring>
-          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.4" radius-outer="1.5" opacity="0.25">
-            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 -60 0" to="-360 -60 0" dur="3000"></a-animation>
-          </a-ring>
-          <a-entity id="orb3">
-            <lp-sphere max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
-            <lp-sphere max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
-            <a-animation attribute="rotation" repeat="indefinite" from="0 0 0" to="0 360 0" dur="5000"></a-animation>
+      <a-entity rotation="0 45 0">
+        <a-entity rotation="0 90 0">
+          <a-entity position="8 3 0" scale="1 1 1" class="clickable" onclick="document.querySelector('.orb1-light').click();">
+            <a-entity position="-2 -1 0">
+              <a-light class="orb1-light" target="#orb1" distance="8" type="point" color="#f90" intensity="1">
+                <a-animation begin="click" attribute="intensity" from="1" to="0" direction="alternate"></a-animation>
+              </a-light>
+              <a-light target="#orb1" distance="8" type="point" color="#FFF" intensity="0.8"></a-light>
+            </a-entity>
+            <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.9" radius-outer="2" opacity="0.25">
+              <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 0 0" to="0 360 0" dur="8000"></a-animation>
+            </a-ring>
+            <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="2.4" radius-outer="2.5" opacity="0.25">
+              <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 45 0" to="360 45 0" dur="8000"></a-animation>
+            </a-ring>
+            <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.4" radius-outer="1.5" opacity="0.25">
+              <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 -60 0" to="-360 -60 0" dur="3000"></a-animation>
+            </a-ring>
+            <a-entity id="orb1">
+              <lp-sphere shadow max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
+              <lp-sphere shadow max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
+              <a-animation attribute="rotation" repeat="indefinite" from="0 0 0" to="0 360 0" dur="5000"></a-animation>
+            </a-entity>
+            <a-animation begin="click" attribute="scale" from="1 1 1" to="0.5 0.5 0.5" direction="alternate"></a-animation>
+            <a-animation begin="click" attribute="position" from="8 3 0" to="8 0.5 0" direction="alternate"></a-animation>
           </a-entity>
         </a-entity>
-      </a-entity>
 
-      <a-entity rotation="0 0 0">
-        <a-entity position="8 0.5 0" scale="0.5 0.5 0.5">
-          <a-entity position="-2 -1 0">
-            <a-light target="#orb1" distance="8" type="point" color="#f90" intensity="0"></a-light>
-            <a-light target="#orb1" distance="8" type="point" color="#FFF" intensity="0.8"></a-light>
+        <a-entity rotation="0 180 0">
+          <a-entity position="8 0.5 0" scale="0.5 0.5 0.5" class="clickable" onclick="document.querySelector('.orb2-light').click();">
+            <a-entity position="-2 -1 0">
+              <a-light class="orb2-light" target="#orb2" distance="8" type="point" color="#f90" intensity="0">
+                <a-animation begin="click" attribute="intensity" from="0" to="1" direction="alternate"></a-animation>
+              </a-light>
+              <a-light target="#orb2" distance="8" type="point" color="#FFF" intensity="0.8"></a-light>
+            </a-entity>
+            <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.9" radius-outer="2" opacity="0.25">
+              <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 0 0" to="0 360 0" dur="8000"></a-animation>
+            </a-ring>
+            <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="2.4" radius-outer="2.5" opacity="0.25">
+              <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 45 0" to="360 45 0" dur="8000"></a-animation>
+            </a-ring>
+            <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.4" radius-outer="1.5" opacity="0.25">
+              <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 -60 0" to="-360 -60 0" dur="3000"></a-animation>
+            </a-ring>
+            <a-entity id="orb2">
+              <lp-sphere max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
+              <lp-sphere max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
+              <a-animation attribute="rotation" repeat="indefinite" from="0 0 0" to="0 360 0" dur="5000"></a-animation>
+            </a-entity>
+            <a-animation begin="click" attribute="scale" from="0.5 0.5 0.5" to="1 1 1" direction="alternate"></a-animation>
+            <a-animation begin="click" attribute="position" from="8 0.5 0" to="8 3 0" direction="alternate"></a-animation>
           </a-entity>
-          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.9" radius-outer="2" opacity="0.25">
-            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 0 0" to="0 360 0" dur="8000"></a-animation>
-          </a-ring>
-          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="2.4" radius-outer="2.5" opacity="0.25">
-            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 45 0" to="360 45 0" dur="8000"></a-animation>
-          </a-ring>
-          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.4" radius-outer="1.5" opacity="0.25">
-            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 -60 0" to="-360 -60 0" dur="3000"></a-animation>
-          </a-ring>
-          <a-entity id="orb4">
-            <lp-sphere max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
-            <lp-sphere max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
-            <a-animation attribute="rotation" repeat="indefinite" from="0 0 0" to="0 360 0" dur="5000"></a-animation>
+        </a-entity>
+
+        <a-entity rotation="0 270 0">
+          <a-entity position="8 0.5 0" scale="0.5 0.5 0.5" class="clickable" onclick="document.querySelector('.orb3-light').click();">
+            <a-entity position="-2 -1 0">
+              <a-light class="orb3-light" target="#orb3" distance="8" type="point" color="#f90" intensity="0">
+                <a-animation begin="click" attribute="intensity" from="0" to="1" direction="alternate"></a-animation>
+              </a-light>
+              <a-light target="#orb3" distance="8" type="point" color="#FFF" intensity="0.8"></a-light>
+            </a-entity>
+            <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.9" radius-outer="2" opacity="0.25">
+              <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 0 0" to="0 360 0" dur="8000"></a-animation>
+            </a-ring>
+            <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="2.4" radius-outer="2.5" opacity="0.25">
+              <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 45 0" to="360 45 0" dur="8000"></a-animation>
+            </a-ring>
+            <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.4" radius-outer="1.5" opacity="0.25">
+              <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 -60 0" to="-360 -60 0" dur="3000"></a-animation>
+            </a-ring>
+            <a-entity id="orb3">
+              <lp-sphere max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
+              <lp-sphere max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
+              <a-animation attribute="rotation" repeat="indefinite" from="0 0 0" to="0 360 0" dur="5000"></a-animation>
+            </a-entity>
+            <a-animation begin="click" attribute="scale" from="0.5 0.5 0.5" to="1 1 1" direction="alternate"></a-animation>
+            <a-animation begin="click" attribute="position" from="8 0.5 0" to="8 3 0" direction="alternate"></a-animation>
+          </a-entity>
+        </a-entity>
+
+        <a-entity rotation="0 0 0">
+          <a-entity position="8 0.5 0" scale="0.5 0.5 0.5" class="clickable" onclick="document.querySelector('.orb4-light').click();">
+            <a-entity position="-2 -1 0">
+              <a-light class="orb4-light" target="#orb4" distance="8" type="point" color="#f90" intensity="0">
+                <a-animation begin="click" attribute="intensity" from="0" to="1" direction="alternate"></a-animation>
+              </a-light>
+              <a-light target="#orb4" distance="8" type="point" color="#FFF" intensity="0.8"></a-light>
+            </a-entity>
+            <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.9" radius-outer="2" opacity="0.25">
+              <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 0 0" to="0 360 0" dur="8000"></a-animation>
+            </a-ring>
+            <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="2.4" radius-outer="2.5" opacity="0.25">
+              <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 45 0" to="360 45 0" dur="8000"></a-animation>
+            </a-ring>
+            <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.4" radius-outer="1.5" opacity="0.25">
+              <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 -60 0" to="-360 -60 0" dur="3000"></a-animation>
+            </a-ring>
+            <a-entity id="orb4">
+              <lp-sphere max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
+              <lp-sphere max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
+              <a-animation attribute="rotation" repeat="indefinite" from="0 0 0" to="0 360 0" dur="5000"></a-animation>
+            </a-entity>
+            <a-animation begin="click" attribute="scale" from="0.5 0.5 0.5" to="1 1 1" direction="alternate"></a-animation>
+            <a-animation begin="click" attribute="position" from="8 0.5 0" to="8 3 0" direction="alternate"></a-animation>
           </a-entity>
         </a-entity>
       </a-entity>
