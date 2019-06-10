@@ -12,9 +12,9 @@
 $(document).ready(function() {
   var orbs = [
     {dependencies: [4, 1]},
+    {state: 'on'},
     {},
-    {},
-    {},
+    {state: 'on'},
     {}
   ];
 
@@ -43,6 +43,14 @@ $(document).ready(function() {
     template.attr('rotation', '0 ' + (360 / total * i) + ' 0');
     template.find('.orb').attr('id', 'orb' + i);
     template.find('.light-orb').attr('id', 'light-orb' + i);
+
+    if (!orb.state || orb.state != 'on') {
+      template.find('.container').attr('scale', '0.5 0.5 0.5').attr('position', '8 0.5 0');
+      template.find('.animation-scale').attr('from', '0.5 0.5 0.5').attr('to', '1 1 1');
+      template.find('.animation-position').attr('from', '8 0.5 0').attr('to', '8 3 0');
+      template.find('.light-orb').attr('intensity', 0);
+      template.find('.animation-intensity').attr('from', 0).attr('to', 1)
+    }
 
     return template;
   }
@@ -146,7 +154,7 @@ p {
           <a-entity id="container-orb1" class="container clickable" position="8 3 0" scale="1 1 1" onclick="document.querySelector('#light-orb1').click()">
             <a-entity position="-2 -1 0">
               <a-light class="light-orb" id="light-orb1" distance="8" type="point" color="#f90" intensity="1">
-                <a-animation begin="click" attribute="intensity" from="1" to="0" direction="alternate"></a-animation>
+                <a-animation class="animation-intensity" begin="click" attribute="intensity" from="1" to="0" direction="alternate"></a-animation>
               </a-light>
               <a-light distance="8" type="point" color="#FFF" intensity="0.8"></a-light>
             </a-entity>
@@ -164,8 +172,8 @@ p {
               <lp-sphere seed="1" shadow max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
               <a-animation attribute="rotation" repeat="indefinite" from="0 0 0" to="0 360 0" dur="5000"></a-animation>
             </a-entity>
-            <a-animation begin="click" attribute="scale" from="1 1 1" to="0.5 0.5 0.5" direction="alternate"></a-animation>
-            <a-animation begin="click" attribute="position" from="8 3 0" to="8 0.5 0" direction="alternate"></a-animation>
+            <a-animation class="animation-scale" begin="click" attribute="scale" from="1 1 1" to="0.5 0.5 0.5" direction="alternate"></a-animation>
+            <a-animation class="animation-position" begin="click" attribute="position" from="8 3 0" to="8 0.5 0" direction="alternate"></a-animation>
             <a-text class="dep-right" opacity="0.25" rotation="0 -90 0" value=">" color="#FFF" scale="10 10 10" position="0 0 1" material="side:double" ></a-text>
             <a-text class="dep-left" opacity="0.25"rotation="0 -90 0" value="<" color="#FFF" scale="10 10 10" position="0 0 -3" material="side:double" ></a-text>
           </a-entity>
