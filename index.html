@@ -11,7 +11,8 @@
     <script>
 $(document).ready(function() {
   var orbs = [
-    {dependencies: [3, 1]},
+    {dependencies: [4, 1]},
+    {},
     {},
     {},
     {}
@@ -37,6 +38,7 @@ $(document).ready(function() {
 
     container.attr('id', 'container-orb' + i);
     container.attr('onclick', onclick);
+    container.find('lp-sphere').attr('seed', i);
 
     template.attr('rotation', '0 ' + (360 / total * i) + ' 0');
     template.find('.orb').attr('id', 'orb' + i);
