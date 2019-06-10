@@ -80,6 +80,12 @@ function transitionOrbs() {
   document.querySelectorAll('.wrapper').forEach(function(el) {
     el.emit('transition');
   });
+  document.querySelector('#content').emit('transition');
+}
+
+function win() {
+  document.querySelector('#content a-text').setAttribute('value', 'Victory');
+  transitionOrbs();
 }
 
 function getOrbsOn() {
@@ -90,9 +96,7 @@ function toggleOrb(i) {
   orbs[i].on = !orbs[i].on;
   console.log(getOrbsOn());
 
-  if (getOrbsOn().every(x => x)) {
-    transitionOrbs();
-  }
+  if (getOrbsOn().every(x => x)) win();
 }
 
 function clickOrb(i) {
@@ -140,6 +144,28 @@ function clickOrb(i) {
 
       <!-- Action! -->
       <a-box shadow width="75" height="0.1" depth="75" position="0 -1 0" color="#222"></a-box>
+
+      <a-entity position="0 5 -10">
+        <a-entity id="content">
+          <a-text shadow value="Welcome" font="exo2bold" scale="10 10 10" align="center" baseline="center" position="0 0.5 1"></a-text>
+          <lp-sphere seed="0" shadow max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
+          <lp-sphere seed="0" shadow max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
+          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.9" radius-outer="2" opacity="0.25">
+            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 0 0" to="0 360 0" dur="8000"></a-animation>
+          </a-ring>
+          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="2.4" radius-outer="2.5" opacity="0.25">
+            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 45 0" to="360 45 0" dur="8000"></a-animation>
+          </a-ring>
+          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.4" radius-outer="1.5" opacity="0.25">
+            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 -60 0" to="-360 -60 0" dur="3000"></a-animation>
+          </a-ring>
+          <a-entity position="-2 -1 0">
+            <a-light class="light-orb" id="light-orb1" distance="8" type="point" color="#f90" intensity="1"></a-light>
+            <a-light distance="8" type="point" color="#FFF" intensity="0.8"></a-light>
+          </a-entity>
+          <a-animation begin="transition" attribute="position" from="0 0 0" to="0 -10 0" dur="3000" easing="ease-elastic" direction="alternate"></a-animation>
+        </a-entity>
+      </a-entity>
 
       <a-entity id="carousel" rotation="0 0 0">
         <a-entity rotation="0 90 0" id="template" class="wrapper" position="0 -8 0">
