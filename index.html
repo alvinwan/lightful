@@ -10,13 +10,6 @@
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+HK:400,900&display=swap" rel="stylesheet">
     <script>
 $(document).ready(function() {
-  var orbs = [
-    {dependencies: [4, 1]},
-    {state: 'on'},
-    {},
-    {state: 'on'},
-    {}
-  ];
 
   function remove(selector) {
     var el = document.querySelector(selector);
@@ -25,11 +18,11 @@ $(document).ready(function() {
 
   function populateTemplate(orb, template, i, total) {
     var container = template.find('.container');
-    var onclick = 'document.querySelector("#light-orb' + i + '").click();';
+    var onclick = 'document.querySelector("#light-orb' + i + '").emit("switch");';
 
     if (orb.dependencies) {
       for (var j=0;j < orb.dependencies.length;j++) {
-        onclick += 'document.querySelector("#container-orb' + orb.dependencies[j] + '").click();'
+        onclick += 'clickOrb(' + orb.dependencies[j] + ');'
       }
     } else {
       container.find('.dep-left').remove();
@@ -43,8 +36,9 @@ $(document).ready(function() {
     template.attr('rotation', '0 ' + (360 / total * i) + ' 0');
     template.find('.orb').attr('id', 'orb' + i);
     template.find('.light-orb').attr('id', 'light-orb' + i);
+    template.find('.clickable').attr('data-id', i);
 
-    if (!orb.state || orb.state != 'on') {
+    if (!orb.on) {
       template.find('.container').attr('scale', '0.5 0.5 0.5').attr('position', '8 0.5 0');
       template.find('.animation-scale').attr('from', '0.5 0.5 0.5').attr('to', '1 1 1');
       template.find('.animation-position').attr('from', '8 0.5 0').attr('to', '8 3 0');
@@ -62,57 +56,55 @@ $(document).ready(function() {
     $('#carousel').append(template);
   }
 
-  remove('#template')
-})
+  remove('#template');
+  setTimeout(transitionOrbs, 10);
+
+  console.log(getOrbsOn());
+  document.querySelector('a-scene').addEventListener('click', (e) => {
+    if (e.target.nodeName != "A-ENTITY" && e.target.nodeName != "CANVAS") {
+      var id = parseInt(e.target.parentNode.getAttribute('data-id'));
+      toggleOrb(id);
+    }
+  })
+});
+
+var orbs = [
+  {dependencies: [4, 1]},
+  {on: true},
+  {},
+  {on: true},
+  {}
+];
+
+function transitionOrbs() {
+  document.querySelectorAll('.wrapper').forEach(function(el) {
+    el.emit('transition');
+  });
+}
+
+function getOrbsOn() {
+  return orbs.map(orb => orb.on)
+}
+
+function toggleOrb(i) {
+  orbs[i].on = !orbs[i].on;
+  console.log(getOrbsOn());
+
+  if (getOrbsOn().every(x => x)) {
+    transitionOrbs();
+  }
+}
+
+function clickOrb(i) {
+  document.querySelector("#container-orb" + i).click();
+  toggleOrb(i);
+}
     </script>
     <style>
-html {
-  background-color:#111;
-}
-* {
-  font-family:'Noto Sans HK'
-}
-#template {
-  display:none;
-}
-.content-front,.content-back {
-  margin-top:15%;
-  margin-left:10%;
-  width:50%;
-  position:fixed;
-  top:0;
-  left:0;
-}
-.content-front {
-  z-index:100;
-}
-h1 {
-  color:#FFF;
-  font-size:8em;
-  line-height:100%;
-  margin:0;
-  padding:0;
-}
-p {
-  margin-top:3em;
-  color:#FFF;
-  line-height:2.5em;
-}
-.byline {
-  color:#FFF;
-  text-transform:uppercase;
-  margin-top:22%;
-  letter-spacing:0.25em;
-}
+    html { background-color: #111 }
     </style>
   </head>
   <body>
-    <!-- <div class="content-back">
-      <h1>Activate</h1>
-    </div>
-    <div class="content-front">
-      <p class="byline">Multiplayer virtual reality puzzle</p>
-    </div> -->
     <a-scene fog="type: linear; color: #111; near:10; far:15">
 
       <!-- Mixins -->
@@ -149,12 +141,12 @@ p {
       <!-- Action! -->
       <a-box shadow width="75" height="0.1" depth="75" position="0 -1 0" color="#222"></a-box>
 
-      <a-entity id="carousel" rotation="0 45 0">
-        <a-entity rotation="0 90 0" id="template">
-          <a-entity id="container-orb1" class="container clickable" position="8 3 0" scale="1 1 1" onclick="document.querySelector('#light-orb1').click()">
+      <a-entity id="carousel" rotation="0 0 0">
+        <a-entity rotation="0 90 0" id="template" class="wrapper" position="0 -8 0">
+          <a-entity id="container-orb1" class="container" position="8 3 0" scale="1 1 1" onclick="document.querySelector('#light-orb1').click()">
             <a-entity position="-2 -1 0">
               <a-light class="light-orb" id="light-orb1" distance="8" type="point" color="#f90" intensity="1">
-                <a-animation class="animation-intensity" begin="click" attribute="intensity" from="1" to="0" direction="alternate"></a-animation>
+                <a-animation class="animation-intensity" begin="switch" attribute="intensity" from="1" to="0" direction="alternate"></a-animation>
               </a-light>
               <a-light distance="8" type="point" color="#FFF" intensity="0.8"></a-light>
             </a-entity>
@@ -167,16 +159,17 @@ p {
             <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.4" radius-outer="1.5" opacity="0.25">
               <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 -60 0" to="-360 -60 0" dur="3000"></a-animation>
             </a-ring>
-            <a-entity class="orb" id="orb1">
+            <a-entity class="orb clickable" id="orb1">
               <lp-sphere seed="1" shadow max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
               <lp-sphere seed="1" shadow max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
               <a-animation attribute="rotation" repeat="indefinite" from="0 0 0" to="0 360 0" dur="5000"></a-animation>
             </a-entity>
-            <a-animation class="animation-scale" begin="click" attribute="scale" from="1 1 1" to="0.5 0.5 0.5" direction="alternate"></a-animation>
-            <a-animation class="animation-position" begin="click" attribute="position" from="8 3 0" to="8 0.5 0" direction="alternate"></a-animation>
+            <a-animation class="animation-scale" easing="ease-elastic" begin="click" attribute="scale" from="1 1 1" to="0.5 0.5 0.5" direction="alternate" dur="2000"></a-animation>
+            <a-animation class="animation-position" easing="ease-elastic" begin="click" attribute="position" from="8 3 0" to="8 0.5 0" direction="alternate" dur="2000"></a-animation>
             <a-text class="dep-right" opacity="0.25" rotation="0 -90 0" value=">" color="#FFF" scale="10 10 10" position="0 0 1" material="side:double" ></a-text>
             <a-text class="dep-left" opacity="0.25"rotation="0 -90 0" value="<" color="#FFF" scale="10 10 10" position="0 0 -3" material="side:double" ></a-text>
           </a-entity>
+          <a-animation begin="transition" attribute="position" from="0 -8 0" to="0 0 0" dur="3000" easing="ease-elastic" direction="alternate"></a-animation>
         </a-entity>
 
       </a-entity>
