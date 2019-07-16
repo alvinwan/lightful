@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <title>Lightful</title>
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alvinwan/aframe-low-poly@0.0.5/dist/aframe-low-poly.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <!-- Camera! -->
+      <a-entity id="rig" position="0 3 0">
+        <a-camera wasd-controls look-controls></a-camera>
+      </a-entity>
+
+      <!-- Action! -->
+      <a-box shadow width="75" height="0.1" depth="75" position="0 -1 0" color="#222"></a-box>
+    </a-scene>
+  </body>
+</html>

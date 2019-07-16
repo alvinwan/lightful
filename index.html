@@ -8,6 +8,9 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alvinwan/aframe-low-poly@0.0.5/dist/aframe-low-poly.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+HK:400,900&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alvinwan/mirrorvr@0.2.3/dist/mirrorvr.min.js"></script>
     <script>
 $(document).ready(function() {
 
@@ -103,6 +106,20 @@ function clickOrb(i) {
   document.querySelector("#container-orb" + i).click();
   toggleOrb(i);
 }
+
+// mirrorVR.init({
+//
+//   /**
+//    * See the `State` section below for details.
+//    **/
+//   state: {
+//     position: {
+//       onNotify: function(data) {
+//         console.log('Position is ' + data.index);
+//       }
+//     }
+//   }
+// });
     </script>
     <style>
     html { background-color: #111 }

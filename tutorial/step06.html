@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <title>Lightful</title>
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alvinwan/aframe-low-poly@0.0.5/dist/aframe-low-poly.min.js"></script>
+    <style>
+    html { background-color: #111 }
+    </style>
+  </head>
+  <body>
+    <a-scene fog="type: linear; color: #111; near:10; far:15" class="fullscreen">
+      <!-- Lights! -->
+      <a-light type="directional" castshadow="true" intensity="0.5" color="#FFF" position="2 5 0"></a-light>
+      <a-light intensity="0.1" type="ambient" position="1 1 1" color="#FFF"></a-light>
+
+      <!-- Camera! -->
+      <a-entity id="rig" position="0 3 0">
+        <a-camera wasd-controls look-controls>
+          <a-entity cursor="fuse: true; fuseTimeout: 250"
+                  position="0 0 -1"
+                  geometry="primitive: ring; radiusInner: 0.03; radiusOuter: 0.04"
+                  material="color: white; shader: flat; opacity: 0.5"
+                  scale="0.5 0.5 0.5"
+                  raycaster="far: 20; interval: 1000; objects: .clickable">
+              <a-circle radius="0.01" color="#FFF" opacity="0.5" material="shader: flat"></a-circle>
+            <a-animation begin="fusing" easing="ease-in" attribute="scale"
+               fill="backwards" from="1 1 1" to="0.2 0.2 0.2" dur="250"></a-animation>
+           </a-entity>
+        </a-camera>
+      </a-entity>
+
+      <!-- Action! -->
+      <a-box shadow width="75" height="0.1" depth="75" position="0 -1 0" color="#222"></a-box>
+
+      <a-entity id="carousel">
+        <a-entity rotation="0 90 0" id="template" class="wrapper" position="0 0 0">
+          <a-entity id="container-orb0" class="container" position="8 3 0" scale="1 1 1">
+            <a-entity position="-2 -1 0">
+              <a-light class="light-orb" id="light-orb0" distance="8" type="point" color="#f90" intensity="1"></a-light>
+              <a-light distance="8" type="point" color="#FFF" intensity="0.8"></a-light>
+            </a-entity>
+            <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.9" radius-outer="2" opacity="0.25">
+              <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 0 0" to="0 360 0" dur="8000"></a-animation>
+            </a-ring>
+            <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="2.4" radius-outer="2.5" opacity="0.25">
+              <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 45 0" to="360 45 0" dur="8000"></a-animation>
+            </a-ring>
+            <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.4" radius-outer="1.5" opacity="0.25">
+              <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 -60 0" to="-360 -60 0" dur="3000"></a-animation>
+            </a-ring>
+            <a-entity class="orb" id="orb0" data-id="0">
+              <lp-sphere seed="0" shadow max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
+              <lp-sphere seed="0" shadow max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
+              <a-animation attribute="rotation" repeat="indefinite" from="0 0 0" to="0 360 0" dur="5000"></a-animation>
+            </a-entity>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+  </body>
+</html>
