@@ -3,15 +3,13 @@
     <title>Lightful</title>
     <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alvinwan/aframe-low-poly@0.0.5/dist/aframe-low-poly.min.js"></script>
-    <style>
-    html { background-color: #111 }
-    </style>
   </head>
   <body>
-    <a-scene fog="type: linear; color: #111; near:10; far:15" class="fullscreen">
+    <a-scene fog="type: linear; color: #111; near:10; far:15">
       <!-- Lights! -->
       <a-light type="directional" castshadow="true" intensity="0.5" color="#FFF" position="2 5 0"></a-light>
       <a-light intensity="0.1" type="ambient" position="1 1 1" color="#FFF"></a-light>
+      <a-sky color="#111"></a-sky>
 
       <!-- Camera! -->
       <a-entity id="rig" position="0 3 0">
@@ -34,7 +32,7 @@
 
       <a-entity id="carousel">
         <a-entity rotation="0 90 0" id="template" class="wrapper" position="0 0 0">
-          <a-entity id="container-orb0" class="container" position="8 3 0" scale="1 1 1" onclick="document.querySelector(&quot;#light-orb0&quot;).emit(&quot;switch&quot;);">
+          <a-entity id="container-orb0" class="container" position="8 3 0" scale="1 1 1" onclick="document.querySelector('#light-orb0').emit('switch');">
             <a-entity position="-2 -1 0">
               <a-light class="light-orb" id="light-orb0" distance="8" type="point" color="#f90" intensity="1">
                 <a-animation class="animation-intensity" begin="switch" attribute="intensity" from="0" to="1" direction="alternate"></a-animation>

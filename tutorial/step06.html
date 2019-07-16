@@ -3,15 +3,13 @@
     <title>Lightful</title>
     <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alvinwan/aframe-low-poly@0.0.5/dist/aframe-low-poly.min.js"></script>
-    <style>
-    html { background-color: #111 }
-    </style>
   </head>
   <body>
-    <a-scene fog="type: linear; color: #111; near:10; far:15" class="fullscreen">
+    <a-scene fog="type: linear; color: #111; near:10; far:15">
       <!-- Lights! -->
       <a-light type="directional" castshadow="true" intensity="0.5" color="#FFF" position="2 5 0"></a-light>
       <a-light intensity="0.1" type="ambient" position="1 1 1" color="#FFF"></a-light>
+      <a-sky color="#111"></a-sky>
 
       <!-- Camera! -->
       <a-entity id="rig" position="0 3 0">
@@ -48,7 +46,7 @@
             <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.4" radius-outer="1.5" opacity="0.25">
               <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 -60 0" to="-360 -60 0" dur="3000"></a-animation>
             </a-ring>
-            <a-entity class="orb" id="orb0" data-id="0">
+            <a-entity class="orb clickable" id="orb0" data-id="0">
               <lp-sphere seed="0" shadow max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
               <lp-sphere seed="0" shadow max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
               <a-animation attribute="rotation" repeat="indefinite" from="0 0 0" to="0 360 0" dur="5000"></a-animation>

@@ -107,19 +107,19 @@ function clickOrb(i) {
   toggleOrb(i);
 }
 
-// mirrorVR.init({
-//
-//   /**
-//    * See the `State` section below for details.
-//    **/
-//   state: {
-//     position: {
-//       onNotify: function(data) {
-//         console.log('Position is ' + data.index);
-//       }
-//     }
-//   }
-// });
+mirrorVR.init({
+
+  /**
+   * See the `State` section below for details.
+   **/
+  state: {
+    position: {
+      onNotify: function(data) {
+        console.log('Position is ' + data.index);
+      }
+    }
+  }
+});
     </script>
     <style>
     html { background-color: #111 }
