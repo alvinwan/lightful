@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+HK:400,900&display=swap" rel="stylesheet">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/alvinwan/mirrorvr@0.2.3/dist/mirrorvr.min.js"></script>
     <script>
 var orbs = [
   {left: 1, right: 4},
@@ -108,19 +107,10 @@ function clickOrb(i) {
   toggleOrb(i);
 }
 
-mirrorVR.init({
-
-  /**
-   * See the `State` section below for details.
-   **/
-  state: {
-    position: {
-      onNotify: function(data) {
-        console.log('Position is ' + data.index);
-      }
-    }
-  }
-});
+var socket = io("https://lightful.glitch.me");
+socket.emit('newPlayer', function(id) {
+  console.log(id);
+})
     </script>
     <style>
     html { background-color: #111 }
