@@ -76,16 +76,10 @@ $(document).ready(function() {
   remove('#template');
   setTimeout(transitionOrbs, 10);
 
-  document.querySelector('a-scene').addEventListener('click', (e) => {
-    if (e.target.nodeName != "A-ENTITY" && e.target.nodeName != "CANVAS") {
-      var id = parseInt(e.target.parentNode.getAttribute('data-id'));
-      toggleOrb(id);
-    }
-  })
-
-  // $('.orb').on('click', function() {
-  //   return false;
-  // })
+  $('.orb').on('click', function() {
+    var id = $(this).attr('data-id')
+    toggleOrb(id);
+  });
 });
 
 function transitionOrbs() {

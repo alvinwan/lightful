@@ -7,9 +7,9 @@
     <script>
 var orbs = [
   {left: 1, right: 4},
-  {on: true},
   {},
-  {on: true},
+  {},
+  {},
   {}
 ];
 
@@ -67,10 +67,21 @@ $(document).ready(function() {
   }
 
   remove('#template');
+
+  $('.orb').on('click', function() {
+    var id = $(this).attr('data-id')
+    toggleOrb(id);
+  });
 });
+
+function toggleOrb(i) {
+  orbs[i].on = !orbs[i].on;
+  if (orbs.every(orb => orb.on)) console.log('Victory!');
+}
 
 function clickOrb(i) {
   document.querySelector("#container-orb" + i).click();
+  toggleOrb(i);
 }
   </script>
   </head>
