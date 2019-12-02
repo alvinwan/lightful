@@ -1,16 +1,9 @@
-
-<!-- Created by Alvin Wan (alvinwan.com) -->
-<!DOCTYPE html>
 <html>
   <head>
     <title>Lightful</title>
     <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alvinwan/aframe-low-poly@0.0.5/dist/aframe-low-poly.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+HK:400,900&display=swap" rel="stylesheet">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/alvinwan/mirrorvr@0.2.3/dist/mirrorvr.min.js"></script>
     <script>
 var orbs = [
   {left: 1, right: 4},
@@ -74,81 +67,19 @@ $(document).ready(function() {
   }
 
   remove('#template');
-  setTimeout(transitionOrbs, 10);
-
-  document.querySelector('a-scene').addEventListener('click', (e) => {
-    if (e.target.nodeName != "A-ENTITY" && e.target.nodeName != "CANVAS") {
-      var id = parseInt(e.target.parentNode.getAttribute('data-id'));
-      toggleOrb(id);
-    }
-  })
-
-  // $('.orb').on('click', function() {
-  //   return false;
-  // })
 });
-
-function transitionOrbs() {
-  document.querySelectorAll('.wrapper').forEach(function(el) {
-    el.emit('transition');
-  });
-  document.querySelector('#content').emit('transition');
-}
-
-function win() {
-  document.querySelector('#content a-text').setAttribute('value', 'Victory');
-  transitionOrbs();
-}
-
-function getOrbsOn() {
-  return orbs.map(orb => orb.on)
-}
-
-function toggleOrb(i) {
-  orbs[i].on = !orbs[i].on;
-  if (getOrbsOn().every(x => x)) win();
-}
 
 function clickOrb(i) {
   document.querySelector("#container-orb" + i).click();
-  toggleOrb(i);
 }
-
-mirrorVR.init({
-
-  /**
-   * See the `State` section below for details.
-   **/
-  state: {
-    position: {
-      onNotify: function(data) {
-        console.log('Position is ' + data.index);
-      }
-    }
-  }
-});
-    </script>
-    <style>
-    html { background-color: #111 }
-    </style>
+  </script>
   </head>
   <body>
     <a-scene fog="type: linear; color: #111; near:10; far:15">
-
-      <!-- Mixins -->
-      <a-assets>
-        <a-mixin id="foliage" material="color:#849812"></a-mixin>
-        <a-mixin id="foliage-light" material="color:#AFC91B"></a-mixin>
-        <a-mixin id="text" text="
-            font:kelsonsans;
-            anchor:center;
-            align:center;"></a-mixin>
-      </a-assets>
-      </a-assets>
-
       <!-- Lights! -->
-      <a-light type="directional" castShadow="true" intensity="0.5" color="#FFF" position="2 5 0"></a-light>
+      <a-light type="directional" castshadow="true" intensity="0.5" color="#FFF" position="2 5 0"></a-light>
       <a-light intensity="0.1" type="ambient" position="1 1 1" color="#FFF"></a-light>
+      <a-sky color="#111"></a-sky>
 
       <!-- Camera! -->
       <a-entity id="rig" position="0 3 0">
@@ -169,35 +100,13 @@ mirrorVR.init({
       <!-- Action! -->
       <a-box shadow width="75" height="0.1" depth="75" position="0 -1 0" color="#222"></a-box>
 
-      <a-entity position="0 5 -10">
-        <a-entity id="content">
-          <a-text shadow value="Welcome" font="exo2bold" scale="10 10 10" align="center" baseline="center" position="0 0.5 1"></a-text>
-          <lp-sphere seed="0" shadow max-amplitude="1 1 1" position="-0.5 0 -0.5"></lp-sphere>
-          <lp-sphere seed="0" shadow max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
-          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.9" radius-outer="2" opacity="0.25">
-            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 0 0" to="0 360 0" dur="8000"></a-animation>
-          </a-ring>
-          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="2.4" radius-outer="2.5" opacity="0.25">
-            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 45 0" to="360 45 0" dur="8000"></a-animation>
-          </a-ring>
-          <a-ring color="#fff" material="side:double" position="0 0.5 0" radius-inner="1.4" radius-outer="1.5" opacity="0.25">
-            <a-animation attribute="rotation" easing="linear" repeat="indefinite" from="0 -60 0" to="-360 -60 0" dur="3000"></a-animation>
-          </a-ring>
-          <a-entity position="-2 -1 0">
-            <a-light class="light-orb" id="light-orb0" distance="8" type="point" color="#f90" intensity="1"></a-light>
-            <a-light distance="8" type="point" color="#FFF" intensity="0.8"></a-light>
-          </a-entity>
-          <a-animation begin="transition" attribute="position" from="0 0 0" to="0 -10 0" dur="3000" easing="ease-elastic" direction="alternate"></a-animation>
-        </a-entity>
-      </a-entity>
-
       <a-entity id="carousel">
-        <a-entity rotation="0 90 0" id="template" class="wrapper" position="0 -8 0">
-          <a-entity id="container-orb0" class="container" position="8 3 0" scale="1 1 1" onclick="document.querySelector('#light-orb0').click()">
+        <a-entity rotation="0 90 0" id="template" class="wrapper" position="0 0 0">
+          <a-entity id="container-orb0" class="container" position="8 3 0" scale="1 1 1" onclick="document.querySelector('#light-orb0').emit('switch');">
             <a-text class="orb-id" opacity="0.25" rotation="0 -90 0" value="4" color="#FFF" scale="3 3 3" position="0 -2 -0.25" material="side:double"></a-text>
             <a-entity position="-2 -1 0">
               <a-light class="light-orb" id="light-orb0" distance="8" type="point" color="#f90" intensity="1">
-                <a-animation class="animation-intensity" begin="switch" attribute="intensity" from="1" to="0" direction="alternate"></a-animation>
+                <a-animation class="animation-intensity" begin="switch" attribute="intensity" from="0" to="1" direction="alternate"></a-animation>
               </a-light>
               <a-light distance="8" type="point" color="#FFF" intensity="0.8"></a-light>
             </a-entity>
@@ -215,12 +124,11 @@ mirrorVR.init({
               <lp-sphere seed="0" shadow max-amplitude="1 1 1" rotation="0 45 45" opacity="0.5" position="-0.5 0 -0.5"></lp-sphere>
               <a-animation attribute="rotation" repeat="indefinite" from="0 0 0" to="0 360 0" dur="5000"></a-animation>
             </a-entity>
-            <a-animation class="animation-scale" easing="ease-elastic" begin="click" attribute="scale" from="1 1 1" to="0.5 0.5 0.5" direction="alternate" dur="2000"></a-animation>
-            <a-animation class="animation-position" easing="ease-elastic" begin="click" attribute="position" from="8 3 0" to="8 0.5 0" direction="alternate" dur="2000"></a-animation>
+            <a-animation class="animation-scale" easing="ease-elastic" begin="click" attribute="scale" from="0.5 0.5 0.5" to="1 1 1" direction="alternate" dur="2000"></a-animation>
+            <a-animation class="animation-position" easing="ease-elastic" begin="click" attribute="position" from="8 0.5 0" to="8 3 0" direction="alternate" dur="2000"></a-animation>
             <a-text class="dep-right" opacity="0.25" rotation="0 -90 0" value="4" color="#FFF" scale="10 10 10" position="0 0 1" material="side:double" ></a-text>
             <a-text class="dep-left" opacity="0.25"rotation="0 -90 0" value="1" color="#FFF" scale="10 10 10" position="0 0 -3" material="side:double" ></a-text>
           </a-entity>
-          <a-animation begin="transition" attribute="position" from="0 -8 0" to="0 0 0" dur="3000" easing="ease-elastic" direction="alternate"></a-animation>
         </a-entity>
       </a-entity>
     </a-scene>

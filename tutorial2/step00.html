@@ -33,6 +33,7 @@
       <a-entity id="carousel">
         <a-entity rotation="0 90 0" id="template" class="wrapper" position="0 0 0">
           <a-entity id="container-orb0" class="container" position="8 3 0" scale="1 1 1" onclick="document.querySelector('#light-orb0').emit('switch');">
+            <a-text class="orb-id" opacity="0.25" rotation="0 -90 0" value="4" color="#FFF" scale="3 3 3" position="0 -2 -0.25" material="side:double"></a-text>
             <a-entity position="-2 -1 0">
               <a-light class="light-orb" id="light-orb0" distance="8" type="point" color="#f90" intensity="1">
                 <a-animation class="animation-intensity" begin="switch" attribute="intensity" from="0" to="1" direction="alternate"></a-animation>
@@ -55,6 +56,8 @@
             </a-entity>
             <a-animation class="animation-scale" easing="ease-elastic" begin="click" attribute="scale" from="0.5 0.5 0.5" to="1 1 1" direction="alternate" dur="2000"></a-animation>
             <a-animation class="animation-position" easing="ease-elastic" begin="click" attribute="position" from="8 0.5 0" to="8 3 0" direction="alternate" dur="2000"></a-animation>
+            <a-text class="dep-right" opacity="0.25" rotation="0 -90 0" value="4" color="#FFF" scale="10 10 10" position="0 0 1" material="side:double" ></a-text>
+            <a-text class="dep-left" opacity="0.25"rotation="0 -90 0" value="1" color="#FFF" scale="10 10 10" position="0 0 -3" material="side:double" ></a-text>
           </a-entity>
         </a-entity>
       </a-entity>

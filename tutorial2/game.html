@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/gh/alvinwan/mirrorvr@0.2.3/dist/mirrorvr.min.js"></script>
     <script>
 var orbs = [
-  {left: 1, right: 4},
+  {dependencies: [4, 1]},
   {on: true},
   {},
   {on: true},
@@ -26,29 +26,23 @@ $(document).ready(function() {
     var container = template.find('.container');
     var onclick = 'document.querySelector("#light-orb' + i + '").emit("switch");';
 
-    if (orb.left || orb.right) {
-      if (orb.left) {
-        onclick += 'clickOrb(' + orb.left + ');';
-        container.find('.dep-left').attr('value', orb.left);
-      }
-      if (orb.right) {
-        onclick += 'clickOrb(' + orb.right + ');';
-        container.find('.dep-right').attr('value', orb.right);
+    if (orb.dependencies) {
+      for (var j=0;j < orb.dependencies.length;j++) {
+        onclick += 'clickOrb(' + orb.dependencies[j] + ');'
       }
     } else {
       container.find('.dep-left').remove();
       container.find('.dep-right').remove();
     }
 
-    container.find('.orb-id').attr('value', i);
     container.attr('id', 'container-orb' + i);
+    container.attr('onclick', onclick);
+    container.find('lp-sphere').attr('seed', i);
+
+    template.attr('rotation', '0 ' + (360 / total * i) + ' 0');
     template.find('.orb').attr('id', 'orb' + i);
     template.find('.light-orb').attr('id', 'light-orb' + i);
     template.find('.clickable').attr('data-id', i);
-
-    container.attr('onclick', onclick);
-    container.find('lp-sphere').attr('seed', i);
-    template.attr('rotation', '0 ' + (360 / total * i) + ' 0');
 
     if (!orb.on) {
       template.find('.container').attr('scale', '0.5 0.5 0.5').attr('position', '8 0.5 0');
@@ -76,6 +70,7 @@ $(document).ready(function() {
   remove('#template');
   setTimeout(transitionOrbs, 10);
 
+  console.log(getOrbsOn());
   document.querySelector('a-scene').addEventListener('click', (e) => {
     if (e.target.nodeName != "A-ENTITY" && e.target.nodeName != "CANVAS") {
       var id = parseInt(e.target.parentNode.getAttribute('data-id'));
@@ -106,6 +101,8 @@ function getOrbsOn() {
 
 function toggleOrb(i) {
   orbs[i].on = !orbs[i].on;
+  console.log(getOrbsOn());
+
   if (getOrbsOn().every(x => x)) win();
 }
 
@@ -194,7 +191,6 @@ mirrorVR.init({
       <a-entity id="carousel">
         <a-entity rotation="0 90 0" id="template" class="wrapper" position="0 -8 0">
           <a-entity id="container-orb0" class="container" position="8 3 0" scale="1 1 1" onclick="document.querySelector('#light-orb0').click()">
-            <a-text class="orb-id" opacity="0.25" rotation="0 -90 0" value="4" color="#FFF" scale="3 3 3" position="0 -2 -0.25" material="side:double"></a-text>
             <a-entity position="-2 -1 0">
               <a-light class="light-orb" id="light-orb0" distance="8" type="point" color="#f90" intensity="1">
                 <a-animation class="animation-intensity" begin="switch" attribute="intensity" from="1" to="0" direction="alternate"></a-animation>
@@ -217,8 +213,8 @@ mirrorVR.init({
             </a-entity>
             <a-animation class="animation-scale" easing="ease-elastic" begin="click" attribute="scale" from="1 1 1" to="0.5 0.5 0.5" direction="alternate" dur="2000"></a-animation>
             <a-animation class="animation-position" easing="ease-elastic" begin="click" attribute="position" from="8 3 0" to="8 0.5 0" direction="alternate" dur="2000"></a-animation>
-            <a-text class="dep-right" opacity="0.25" rotation="0 -90 0" value="4" color="#FFF" scale="10 10 10" position="0 0 1" material="side:double" ></a-text>
-            <a-text class="dep-left" opacity="0.25"rotation="0 -90 0" value="1" color="#FFF" scale="10 10 10" position="0 0 -3" material="side:double" ></a-text>
+            <a-text class="dep-right" opacity="0.25" rotation="0 -90 0" value=">" color="#FFF" scale="10 10 10" position="0 0 1" material="side:double" ></a-text>
+            <a-text class="dep-left" opacity="0.25"rotation="0 -90 0" value="<" color="#FFF" scale="10 10 10" position="0 0 -3" material="side:double" ></a-text>
           </a-entity>
           <a-animation begin="transition" attribute="position" from="0 -8 0" to="0 0 0" dur="3000" easing="ease-elastic" direction="alternate"></a-animation>
         </a-entity>
