@@ -2,77 +2,7 @@
   <head>
     <title>Lightful</title>
     <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alvinwan/aframe-low-poly@0.0.5/dist/aframe-low-poly.min.js"></script>
-    <script>
-var orbs = [
-  {left: 1, right: 4},
-  {},
-  {},
-  {},
-  {}
-];
-
-$(document).ready(function() {
-
-  function populateTemplate(orb, template, i, total) {
-    var container = template.find('.container');
-    var onclick = 'document.querySelector("#light-orb' + i + '").emit("switch");';
-
-    if (orb.left || orb.right) {
-      if (orb.left) {
-        onclick += 'clickOrb(' + orb.left + ');';
-        container.find('.dep-left').attr('value', orb.left);
-      }
-      if (orb.right) {
-        onclick += 'clickOrb(' + orb.right + ');';
-        container.find('.dep-right').attr('value', orb.right);
-      }
-    } else {
-      container.find('.dep-left').remove();
-      container.find('.dep-right').remove();
-    }
-
-    container.find('.orb-id').attr('value', i);
-    container.attr('id', 'container-orb' + i);
-    template.find('.orb').attr('id', 'orb' + i);
-    template.find('.light-orb').attr('id', 'light-orb' + i);
-    template.find('.clickable').attr('data-id', i);
-
-    container.attr('onclick', onclick);
-    container.find('lp-sphere').attr('seed', i);
-    template.attr('rotation', '0 ' + (360 / total * i) + ' 0');
-
-    if (!orb.on) {
-      template.find('.container').attr('scale', '0.5 0.5 0.5').attr('position', '8 0.5 0');
-      template.find('.animation-scale').attr('from', '0.5 0.5 0.5').attr('to', '1 1 1');
-      template.find('.animation-position').attr('from', '8 0.5 0').attr('to', '8 3 0');
-      template.find('.light-orb').attr('intensity', 0);
-      template.find('.animation-intensity').attr('from', 0).attr('to', 1)
-    }
-
-    return template;
-  }
-
-  function remove(selector) {
-    var el = document.querySelector(selector);
-    el.parentNode.removeChild(el);
-  }
-
-  for (var i=0; i < orbs.length; i++) {
-    var orb = orbs[i];
-    var template = $('#template').clone();
-    template = populateTemplate(orb, template, i, orbs.length);
-    $('#carousel').append(template);
-  }
-
-  remove('#template');
-});
-
-function clickOrb(i) {
-  document.querySelector("#container-orb" + i).click();
-}
-  </script>
   </head>
   <body>
     <a-scene fog="type: linear; color: #111; near:10; far:15">

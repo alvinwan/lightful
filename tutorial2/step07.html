@@ -74,7 +74,6 @@ $(document).ready(function() {
   $('.orb').on('click', function() {
     var id = $(this).attr('data-id');
     if (!allowedToToggle(id)) return false;
-    socket.emit('toggleOrb', id);
     toggleOrb(id);
   });
 
@@ -86,17 +85,13 @@ $(document).ready(function() {
       }
     }
   }, 1000);
-});
 
-socket = io("https://lightful.glitch.me");
-socket.emit('newPlayer');
-socket.on('playerId', function(player_id) {
-  current_player_id = player_id;
-  console.log(" * You are now player", current_player_id);
-});
-socket.on('toggleOrb', function(i) {
-  document.querySelector("#container-orb" + i).click();
-  toggleOrb(i);
+  socket = io("https://lightful.glitch.me");
+  socket.emit('newPlayer');
+  socket.on('playerId', function(player_id) {
+    current_player_id = player_id;
+    console.log(" * You are now player", current_player_id);
+  });
 });
 
 function toggleOrb(i) {
@@ -107,7 +102,6 @@ function toggleOrb(i) {
 function clickOrb(i) {
   if (!allowedToToggle(i)) return;
   document.querySelector("#container-orb" + i).click();
-  socket.emit('toggleOrb', i);
   toggleOrb(i);
 }
 

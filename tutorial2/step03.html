@@ -13,8 +13,6 @@ var orbs = [
   {on: true}
 ];
 
-var current_player_id = 1;
-
 $(document).ready(function() {
 
   function populateTemplate(orb, template, i, total) {
@@ -62,11 +60,6 @@ $(document).ready(function() {
 
   remove('#template');
 
-  $('.orb').on('click', function() {
-    var id = $(this).attr('data-id')
-    toggleOrb(id);
-  });
-
   setTimeout(function() {
     for (var i=0; i < orbs.length; i++) {
       var orb = orbs[i];
@@ -77,14 +70,8 @@ $(document).ready(function() {
   }, 1000);
 });
 
-function toggleOrb(i) {
-  orbs[i].on = !orbs[i].on;
-  if (orbs.every(orb => orb.on)) console.log('Victory!');
-}
-
 function clickOrb(i) {
   document.querySelector("#container-orb" + i).click();
-  toggleOrb(i);
 }
   </script>
   </head>
@@ -119,7 +106,7 @@ function clickOrb(i) {
           <a-entity id="container-orb0" class="container" position="8 0.5 0" scale="0.5 0.5 0.5" onclick="document.querySelector('#light-orb0').emit('switch');">
             <a-text class="orb-id" opacity="0.25" rotation="0 -90 0" value="4" color="#FFF" scale="3 3 3" position="0 -2 -0.25" material="side:double"></a-text>
             <a-entity position="-2 -1 0">
-              <a-light class="light-orb" id="light-orb0" distance="8" type="point" color="#f90" intensity="0">
+              <a-light class="light-orb" id="light-orb0" distance="8" type="point" color="#f90" intensity="1">
                 <a-animation class="animation-intensity" begin="switch" attribute="intensity" from="0" to="1" direction="alternate"></a-animation>
               </a-light>
               <a-light distance="8" type="point" color="#FFF" intensity="0.8"></a-light>

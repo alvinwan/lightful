@@ -8,9 +8,9 @@
 var orbs = [
   {left: 1, right: 4},
   {},
-  {on: true},
   {},
-  {on: true}
+  {},
+  {}
 ];
 
 $(document).ready(function() {
@@ -43,6 +43,14 @@ $(document).ready(function() {
     container.find('lp-sphere').attr('seed', i);
     template.attr('rotation', '0 ' + (360 / total * i) + ' 0');
 
+    if (!orb.on) {
+      template.find('.container').attr('scale', '0.5 0.5 0.5').attr('position', '8 0.5 0');
+      template.find('.animation-scale').attr('from', '0.5 0.5 0.5').attr('to', '1 1 1');
+      template.find('.animation-position').attr('from', '8 0.5 0').attr('to', '8 3 0');
+      template.find('.light-orb').attr('intensity', 0);
+      template.find('.animation-intensity').attr('from', 0).attr('to', 1)
+    }
+
     return template;
   }
 
@@ -59,15 +67,6 @@ $(document).ready(function() {
   }
 
   remove('#template');
-
-  setTimeout(function() {
-    for (var i=0; i < orbs.length; i++) {
-      var orb = orbs[i];
-      if (orb.on) {
-        document.querySelector("#container-orb" + i).click();
-      }
-    }
-  }, 1000);
 });
 
 function clickOrb(i) {
@@ -103,7 +102,7 @@ function clickOrb(i) {
 
       <a-entity id="carousel">
         <a-entity rotation="0 90 0" id="template" class="wrapper" position="0 0 0">
-          <a-entity id="container-orb0" class="container" position="8 0.5 0" scale="0.5 0.5 0.5" onclick="document.querySelector('#light-orb0').emit('switch');">
+          <a-entity id="container-orb0" class="container" position="8 3 0" scale="1 1 1" onclick="document.querySelector('#light-orb0').emit('switch');">
             <a-text class="orb-id" opacity="0.25" rotation="0 -90 0" value="4" color="#FFF" scale="3 3 3" position="0 -2 -0.25" material="side:double"></a-text>
             <a-entity position="-2 -1 0">
               <a-light class="light-orb" id="light-orb0" distance="8" type="point" color="#f90" intensity="1">

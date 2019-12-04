@@ -2,7 +2,102 @@
   <head>
     <title>Lightful</title>
     <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alvinwan/aframe-low-poly@0.0.5/dist/aframe-low-poly.min.js"></script>
+    <script>
+var orbs = [
+  {left: 1, right: 4},
+  {},
+  {on: true},
+  {},
+  {on: true}
+];
+
+var current_player_id = 1;
+
+$(document).ready(function() {
+
+  function populateTemplate(orb, template, i, total) {
+    var container = template.find('.container');
+    var onclick = 'document.querySelector("#light-orb' + i + '").emit("switch");';
+
+    if (orb.left || orb.right) {
+      if (orb.left) {
+        onclick += 'clickOrb(' + orb.left + ');';
+        container.find('.dep-left').attr('value', orb.left);
+      }
+      if (orb.right) {
+        onclick += 'clickOrb(' + orb.right + ');';
+        container.find('.dep-right').attr('value', orb.right);
+      }
+    } else {
+      container.find('.dep-left').remove();
+      container.find('.dep-right').remove();
+    }
+
+    container.find('.orb-id').attr('value', i);
+    container.attr('id', 'container-orb' + i);
+    template.find('.orb').attr('id', 'orb' + i);
+    template.find('.light-orb').attr('id', 'light-orb' + i);
+    template.find('.clickable').attr('data-id', i);
+
+    container.attr('onclick', onclick);
+    container.find('lp-sphere').attr('seed', i);
+    template.attr('rotation', '0 ' + (360 / total * i) + ' 0');
+
+    return template;
+  }
+
+  function remove(selector) {
+    var el = document.querySelector(selector);
+    el.parentNode.removeChild(el);
+  }
+
+  for (var i=0; i < orbs.length; i++) {
+    var orb = orbs[i];
+    var template = $('#template').clone();
+    template = populateTemplate(orb, template, i, orbs.length);
+    $('#carousel').append(template);
+  }
+
+  remove('#template');
+
+  $('.orb').on('click', function() {
+    var id = $(this).attr('data-id');
+    if (!allowedToToggle(id)) return false;
+    toggleOrb(id);
+  });
+
+  setTimeout(function() {
+    for (var i=0; i < orbs.length; i++) {
+      var orb = orbs[i];
+      if (orb.on) {
+        document.querySelector("#container-orb" + i).click();
+      }
+    }
+  }, 1000);
+});
+
+function toggleOrb(i) {
+  orbs[i].on = !orbs[i].on;
+  if (orbs.every(orb => orb.on)) console.log('Victory!');
+}
+
+function clickOrb(i) {
+  if (!allowedToToggle(i)) return;
+  document.querySelector("#container-orb" + i).click();
+  toggleOrb(i);
+}
+
+function allowedToToggle(id) {
+  if (current_player_id == 1) {
+    return id % 2;
+  } else if (current_player_id == 2) {
+    return !(id % 2);
+  }
+  return false;
+}
+  </script>
   </head>
   <body>
     <a-scene fog="type: linear; color: #111; near:10; far:15">
@@ -32,10 +127,10 @@
 
       <a-entity id="carousel">
         <a-entity rotation="0 90 0" id="template" class="wrapper" position="0 0 0">
-          <a-entity id="container-orb0" class="container" position="8 3 0" scale="1 1 1" onclick="document.querySelector('#light-orb0').emit('switch');">
+          <a-entity id="container-orb0" class="container" position="8 0.5 0" scale="0.5 0.5 0.5" onclick="document.querySelector('#light-orb0').emit('switch');">
             <a-text class="orb-id" opacity="0.25" rotation="0 -90 0" value="4" color="#FFF" scale="3 3 3" position="0 -2 -0.25" material="side:double"></a-text>
             <a-entity position="-2 -1 0">
-              <a-light class="light-orb" id="light-orb0" distance="8" type="point" color="#f90" intensity="1">
+              <a-light class="light-orb" id="light-orb0" distance="8" type="point" color="#f90" intensity="0">
                 <a-animation class="animation-intensity" begin="switch" attribute="intensity" from="0" to="1" direction="alternate"></a-animation>
               </a-light>
               <a-light distance="8" type="point" color="#FFF" intensity="0.8"></a-light>

@@ -63,8 +63,7 @@ $(document).ready(function() {
   remove('#template');
 
   $('.orb').on('click', function() {
-    var id = $(this).attr('data-id');
-    if (!allowedToToggle(id)) return false;
+    var id = $(this).attr('data-id')
     toggleOrb(id);
   });
 
@@ -84,18 +83,8 @@ function toggleOrb(i) {
 }
 
 function clickOrb(i) {
-  if (!allowedToToggle(i)) return;
   document.querySelector("#container-orb" + i).click();
   toggleOrb(i);
-}
-
-function allowedToToggle(id) {
-  if (current_player_id == 1) {
-    return id % 2;
-  } else if (current_player_id == 2) {
-    return !(id % 2);
-  }
-  return false;
 }
   </script>
   </head>
