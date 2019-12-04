@@ -76,10 +76,24 @@ $(document).ready(function() {
   setTimeout(transitionOrbs, 10);
 
   $('.orb').on('click', function() {
-    var id = $(this).attr('data-id')
+    var id = $(this).attr('data-id');
+    if (!allowedToToggle(id)) return false;
+    socket.emit('toggleOrb', id);
     toggleOrb(id);
   });
 });
+
+socket = io("https://lightful.glitch.me");
+socket.emit('newPlayer');
+socket.on('playerId', function(player_id) {
+  current_player_id = player_id;
+  console.log(" * You are now player", current_player_id);
+});
+socket.on('toggleOrb', function(i) {
+  document.querySelector("#container-orb" + i).click();
+  toggleOrb(i);
+});
+
 
 function transitionOrbs() {
   document.querySelectorAll('.wrapper').forEach(function(el) {
@@ -103,14 +117,20 @@ function toggleOrb(i) {
 }
 
 function clickOrb(i) {
+  if (!allowedToToggle(i)) return;
   document.querySelector("#container-orb" + i).click();
+  socket.emit('toggleOrb', i);
   toggleOrb(i);
 }
 
-var socket = io("https://lightful.glitch.me");
-socket.emit('newPlayer', function(id) {
-  console.log(id);
-})
+function allowedToToggle(id) {
+  if (current_player_id == 1) {
+    return id % 2;
+  } else if (current_player_id == 2) {
+    return !(id % 2);
+  }
+  return false;
+}
     </script>
     <style>
     html { background-color: #111 }
